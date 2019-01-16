@@ -1,0 +1,19 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UE4Editor-Tanks.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"C:\Users\Ravbug\Documents\Unreal Projects\Tanks\Intermediate\Build\Win64\TanksEditor\Development\Engine\SharedPCH.Engine.h.obj"
+"C:\Users\Ravbug\Documents\Unreal Projects\Tanks\Intermediate\Build\Win64\UE4Editor\Development\Tanks\GameManager.cpp.obj"
+"C:\Users\Ravbug\Documents\Unreal Projects\Tanks\Intermediate\Build\Win64\UE4Editor\Development\Tanks\Tank.cpp.obj"
+"C:\Users\Ravbug\Documents\Unreal Projects\Tanks\Intermediate\Build\Win64\UE4Editor\Development\Tanks\Tanks.cpp.obj"
+"C:\Users\Ravbug\Documents\Unreal Projects\Tanks\Intermediate\Build\Win64\UE4Editor\Development\Tanks\TanksGameModeBase.cpp.obj"
+"C:\Users\Ravbug\Documents\Unreal Projects\Tanks\Intermediate\Build\Win64\UE4Editor\Development\Tanks\GameManager.gen.cpp.obj"
+"C:\Users\Ravbug\Documents\Unreal Projects\Tanks\Intermediate\Build\Win64\UE4Editor\Development\Tanks\Tank.gen.cpp.obj"
+"C:\Users\Ravbug\Documents\Unreal Projects\Tanks\Intermediate\Build\Win64\UE4Editor\Development\Tanks\Tanks.init.gen.cpp.obj"
+"C:\Users\Ravbug\Documents\Unreal Projects\Tanks\Intermediate\Build\Win64\UE4Editor\Development\Tanks\TanksGameModeBase.gen.cpp.obj"
+"C:\Users\Ravbug\Documents\Unreal Projects\Tanks\Intermediate\Build\Win64\UE4Editor\Development\Tanks\PCLaunch.rc.res"
+/OUT:"C:\Users\Ravbug\Documents\Unreal Projects\Tanks\Intermediate\Build\Win64\UE4Editor\Development\Tanks\UE4Editor-Tanks.lib"

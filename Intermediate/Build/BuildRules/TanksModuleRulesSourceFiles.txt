@@ -1,0 +1,3 @@
+C:\Users\Ravbug\Documents\Unreal Projects\Tanks\Source\Tanks\Tanks.Build.cs
+C:\Users\Ravbug\Documents\Unreal Projects\Tanks\Source\Tanks.Target.cs
+C:\Users\Ravbug\Documents\Unreal Projects\Tanks\Source\TanksEditor.Target.cs

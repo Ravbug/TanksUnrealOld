@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\Tanks.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{A9EA2802-25E6-480D-ADBC-C6F57270BBBA}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\Tanks.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\TanksEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <Filter Include="Config">
+      <UniqueIdentifier>{34F0B4FF-368C-4ED2-AAEB-C4A41C34C035}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source\Tanks">
+      <UniqueIdentifier>{1336250F-95F3-4237-87B8-959A693B02F0}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\Tanks\GameManager.cpp">
+      <Filter>Source\Tanks</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Tanks\GameManager.h">
+      <Filter>Source\Tanks</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Tanks\Tank.cpp">
+      <Filter>Source\Tanks</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Tanks\Tank.h">
+      <Filter>Source\Tanks</Filter>
+    </ClInclude>
+    <None Include="..\..\Source\Tanks\Tanks.Build.cs">
+      <Filter>Source\Tanks</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\Tanks\Tanks.cpp">
+      <Filter>Source\Tanks</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Tanks\Tanks.h">
+      <Filter>Source\Tanks</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Tanks\TanksGameModeBase.cpp">
+      <Filter>Source\Tanks</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Tanks\TanksGameModeBase.h">
+      <Filter>Source\Tanks</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

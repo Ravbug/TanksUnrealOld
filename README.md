@@ -31,7 +31,7 @@ Goal is to reach parity with the Unity game, and perhaps extend on it
 - [x] Detect end of game and which tanks to track
 - [x] Spawn tanks on level load
 - [x] Track wins (configurable rounds needed to win game)
-- [ ] Text to display round number and scoreboard
+- [x] Text to display round number and scoreboard
 - [ ] Display tank health in-game (Billboard?)
 - [ ] Low health tanks emit smoke
 - [x] Smooth tank acceleration and deceleration when controlled

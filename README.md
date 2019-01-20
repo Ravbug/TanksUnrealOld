@@ -8,13 +8,11 @@ I am writing the game predominantly in C++, using blueprint subclassing where it
 ## Software Used
 1. IDE: [Microsoft Visual Studio Community 2017](https://visualstudio.microsoft.com/)
 2. Engine: [Unreal Engine 4.21.1](https://www.unrealengine.com/en-US/eulacheck?state=https%3A%2F%2Fwww.unrealengine.com%2Fen-US%2Ffeed&studio=false)
-3. Operating System: Microsoft Windows 10
 
 ## Compiling it yourself
 1. Ensure you have the software listed above installed on your computer.
 2. Clone this repository
-3. Open the project in Unreal
-4. Press the compile button in the Unreal toolbar and hope it works.
+3. Open the .uproject and compile now if it asks
 5. Play! 
 
 ## Issues

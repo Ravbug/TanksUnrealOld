@@ -48,7 +48,6 @@ void ATank::ResetSelf(FTransform newTransform) {
 	isDefeated = false;
 	SetActorTransform(newTransform);
 	SetSelfVisibility(true);
-	controlEnabled = true;
 }
 
 //called from whatever is controlling the tank
@@ -109,6 +108,7 @@ void ATank::FireEarly() {
 void ATank::Damage(int amount) {
 	if (!isDefeated) {
 		health -= amount;
+		controlEnabled = false;
 		if (health <= 0) {
 			isDefeated = true;
 			//Die() is implemented in blueprint subclass

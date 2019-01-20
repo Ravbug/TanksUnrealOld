@@ -15,6 +15,8 @@ AGameManager::AGameManager()
 void AGameManager::BeginPlay()
 {
 	Super::BeginPlay();
+	RoundStarting(currentRound);
+	GetWorldTimerManager().SetTimer(TimerHandle, this, &AGameManager::EnableAllTanks, resetDelay, false);
 }
 
 // Called every frame
@@ -55,15 +57,33 @@ void AGameManager::Tick(float DeltaTime)
     
     
     //check winner
-	
     if (!roundWon && numAlive < 2) {
+		//round has been won
 		roundWon = true;
+		//FString str = FString("Winner! <Emphasis>Name</>");
         winner->controlEnabled = false;
 		winner->wins++;
+		FString scoreboard = FString("Scoreboard\n");
+
+		for (ATank* t : tanks) {
+			scoreboard += "<Emphasis>" + t->name + "</>		";
+			if (t == winner) {
+				scoreboard += "<Noteworthy>";
+				scoreboard.AppendInt(t->wins);
+				scoreboard += "</>\n";
+			}
+			else {
+				scoreboard.AppendInt(t->wins);
+				scoreboard += "\n";
+			}
+		}
+
+		RoundWon(FString("<Emphasis>" + winner->name + "</> won the round!"),scoreboard);
+
 		currentRound++;
 		if (winner->wins >= WinsNeeded) {
 			//run end game function
-			UE_LOG(LogTemp, Warning, TEXT("Winner!"));
+			RoundWon(FString("<NoteworthySmall>" + winner->name + "</> won the game!"), scoreboard);
 		}
 		else {
 			GetWorldTimerManager().SetTimer(TimerHandle, this, &AGameManager::ResetTanks, resetDelay, false);
@@ -101,13 +121,24 @@ void AGameManager::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 }
 
 //resets the tanks by spawning fresh copies
+//for resetting the level after the round
 void AGameManager::ResetTanks() {
 	roundWon = false;
+	RoundStarting(currentRound);
 	for (int i = 0; i < TankProperties.Num(); i++) {
 		ATank* tank = tanks[i];
 		tank->ResetSelf(TankProperties[i].Spawnpoint->GetActorTransform());
 	}
+	GetWorldTimerManager().SetTimer(TimerHandle, this, &AGameManager::EnableAllTanks, resetDelay, false);
 }
+
+//enables the tanks to recieve inputs
+void AGameManager::EnableAllTanks() {
+	for (ATank* t : tanks) {
+		t->controlEnabled = true;
+	}
+}
+
 
 void AGameManager::SetTankControls(UInputComponent* PlayerInputComponent) {
 	for (int i = 0; i < TankProperties.Num(); i++) {

@@ -46,13 +46,13 @@ protected:
     double MaxDistance(std::vector<FVector>& vectors);
 
 	//resets the tanks after the round ends
-	UFUNCTION()
-		void ResetTanks();
+	void ResetTanks();
 
 	FTimerHandle TimerHandle;
 
 	//sets up the tank controls
 	void SetTankControls(UInputComponent* PlayerInputComponent);
+	void EnableAllTanks();
 
 	//if the round has been won
 	bool roundWon = false;
@@ -88,6 +88,15 @@ public:
     
     UPROPERTY(EditAnywhere)
     UCameraComponent* camera;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Event")
+		void RoundStarting(int round);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Event")
+		void RoundWon(const FString& text, const FString& scoreboard);
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Event")
+		void DismissHUD();
 
 	UPROPERTY(EditAnywhere)
 		float resetDelay = 3.0f;

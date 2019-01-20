@@ -71,7 +71,7 @@ public:
     
     //stats
     int health = 100;
-    bool controlEnabled = true;
+    bool controlEnabled = false;
     
     //Controls
     //movement (called by the tank controller class)

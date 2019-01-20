@@ -108,9 +108,9 @@ void ATank::FireEarly() {
 void ATank::Damage(int amount) {
 	if (!isDefeated) {
 		health -= amount;
-		controlEnabled = false;
 		if (health <= 0) {
 			isDefeated = true;
+			controlEnabled = false;
 			//Die() is implemented in blueprint subclass
 			Die();
 		}

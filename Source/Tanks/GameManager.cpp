@@ -177,6 +177,7 @@ FVector AGameManager::GetAverageLocation(std::vector<FVector> &vectors) {
     return average;
 }
 
+//calculates the average rotation of the supplied FRotators
 FRotator AGameManager::GetAverageRotation(std::vector<FRotator> &rotators) {
 	FRotator average = rotators[0];
 

@@ -42,9 +42,10 @@ Goal is to reach parity with the Unity game, and perhaps extend on it
 - [ ] Bullet particles and lighting
 - [ ] Explosions effect
 - [ ] Sounds and music (use Unity assets)
-- [ ] Build the arena (maybe multiple arenas?)
+- [x] Build the arena
 - [ ] Maybe: Time of day
 - [ ] Maybe: Flash tank red when hit
+- [ ] Maybe: Multiple Arenas
 - [ ] Dead tank actor to spawn where tanks die (or convert existing actor to dead variant)
 - [ ] Tank AI: Pathfinding
 - [ ] Tank AI: Shooting (and not shooting when behind a wall - use a trigger collider for this)

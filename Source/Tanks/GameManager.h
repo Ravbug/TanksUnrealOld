@@ -83,7 +83,7 @@ public:
     UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Event")
     ATank* SpawnTank(FColor color, FTransform pos);
     
-    UPROPERTY(EditAnywhere)
+    UPROPERTY(EditAnywhere,BlueprintReadWrite)
     USpringArmComponent* cameraMount;
     
     UPROPERTY(EditAnywhere)

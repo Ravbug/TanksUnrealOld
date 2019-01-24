@@ -40,7 +40,10 @@ protected:
     FVector GetAverageLocation(std::vector<FVector> &vectors);
     
     //z offset for the camera root to prevent the camera spring arm from getting confused
-    int zPos = 700;
+    int zPos = 900;
+
+	//increase the camera boom length on 90 degree turns (so that on the narrow side the tanks don't get cut off)
+	int rotationOffset = 300;
     
 	//calculates the distance between the furthest apart vectors
     double MaxDistance(std::vector<FVector>& vectors);

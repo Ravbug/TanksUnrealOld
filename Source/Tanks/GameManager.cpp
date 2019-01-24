@@ -50,7 +50,7 @@ void AGameManager::Tick(float DeltaTime)
 	SetActorRotation(newRotation);
     
     //zoom the camera
-    double distance = MaxDistance(vectors) * 0.5;
+    double distance = MaxDistance(vectors) * 0.5 + rotationOffset * abs(sin(newRotation.Yaw*PI/180));
     
     //update the spring arm length (this doesn't work apparently)
     cameraMount->TargetArmLength = distance;

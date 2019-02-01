@@ -36,16 +36,14 @@ Goal is to reach parity with the Unity game, and perhaps extend on it
 - [x] Smooth camera acceleration and deceleration 
 - [x] Camera rotation 
 - [x] Dynamic camera zooming
-- [ ] Use PlayerControllers instead of the current janky control solution
+- [ ] fix zooming and rotating to avoid cutting off tanks
 - [x] Multiple round support (reset tanks after a delay)
 - [x] Convert the multiple arrays used for setup into a single array (like the Unity game) for easier and more idiot-proof config
 - [ ] Bullet particles and lighting
-- [ ] Explosions effect
-- [ ] Sounds and music (use Unity assets)
+- [x] Explosions effect
+- [x] Sounds (use Unity assets)
+- [ ] music (use Unity assets)
 - [x] Build the arena
-- [ ] Maybe: Time of day
-- [ ] Maybe: Flash tank red when hit
-- [ ] Maybe: Multiple Arenas
 - [ ] Dead tank actor to spawn where tanks die (or convert existing actor to dead variant)
 - [ ] Tank AI: Pathfinding
 - [ ] Tank AI: Shooting (and not shooting when behind a wall - use a trigger collider for this)
@@ -57,3 +55,6 @@ Goal is to reach parity with the Unity game, and perhaps extend on it
 - [ ] Maybe: Networked multiplayer?
 - [ ] Maybe: control turret separate from chassis?
 - [ ] Maybe: Land mines
+- [ ] Maybe: Time of day
+- [ ] Maybe: Flash tank red when hit
+- [ ] Maybe: Multiple Arenas

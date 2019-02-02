@@ -43,7 +43,7 @@ protected:
     int zPos = 900;
 
 	//increase the camera boom length on 90 degree turns (so that on the narrow side the tanks don't get cut off)
-	int rotationOffset = 300;
+	int rotationOffset = 500;
     
 	//calculates the distance between the furthest apart vectors
     double MaxDistance(std::vector<FVector>& vectors);

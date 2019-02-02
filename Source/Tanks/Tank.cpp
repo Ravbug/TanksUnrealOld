@@ -35,6 +35,19 @@ void ATank::Tick(float DeltaTime)
     FVector v = GetActorForwardVector().RotateAngleAxis(90, FVector::UpVector);
     v *= velocity;
     SetActorLocation(GetActorLocation() + v);
+
+	//engine sounds
+	FVector Vvel = GetVelocity();
+	float vel = abs(Vvel.X) + abs(Vvel.Y);
+
+	if (!isDefeated) {
+		if (vel > 0) {
+			//driving sound
+		}
+		else {
+			//idle sound
+		}
+	}
 }
 
 // Called to bind functionality to input
@@ -53,11 +66,11 @@ void ATank::ResetSelf(FTransform newTransform) {
 //called from whatever is controlling the tank
 //changes the velocity which moves the tank
 void ATank::MoveForward(float amount) {
-    if (controlEnabled) {
-        if (abs(velocity) < maxSpeed) {
-            velocity += amount;
-        }
-    }
+	if (controlEnabled) {
+		if (abs(velocity) < maxSpeed) {
+			velocity += amount;
+		}
+	}
 }
 
 //rotates the tank in place

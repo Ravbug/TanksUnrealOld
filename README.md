@@ -42,7 +42,7 @@ Goal is to reach parity with the Unity game, and perhaps extend on it
 - [ ] Bullet particles and lighting
 - [x] Explosions effect
 - [x] Sounds (use Unity assets)
-- [ ] music (use Unity assets)
+- [x] music (use Unity assets)
 - [x] Build the arena
 - [ ] Dead tank actor to spawn where tanks die (or convert existing actor to dead variant)
 - [ ] Tank AI: Pathfinding

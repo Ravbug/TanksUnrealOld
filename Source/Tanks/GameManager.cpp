@@ -45,18 +45,18 @@ void AGameManager::Tick(float DeltaTime)
     SetActorLocation(newLoc);
 
 	//rotate the camera
-	FRotator newRotation = GetAverageRotation(rotations);
+	FRotator newRotation = /*GetAverageRotation(rotations)*/ GetActorRotation();
 
 	//determine the rotation offset
 	double distance = MaxDistance(vectors) * 0.5;
-	float pitch = abs(sin(newRotation.Yaw*PI / 180)) * rotationOffset * (distance / maxDistance);
+	float pitch = /*abs(sin(newRotation.Yaw*PI / 180)) * rotationOffset * (distance / maxDistance)*/ 20 * (distance / maxDistance);
 
 	newRotation.Pitch = -50 - pitch;
 	SetActorRotation(newRotation);
     
     //zoom the camera 
     //update the spring arm length
-    cameraMount->TargetArmLength = distance + pow(500,FMath::Clamp((float)(distance / maxDistance),(float)0.0,(float)1));
+    cameraMount->TargetArmLength = distance;
     
     
     //check winner

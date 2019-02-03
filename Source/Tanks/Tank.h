@@ -40,8 +40,6 @@ protected:
 	int velocity;
 	int maxSpeed = 10;
 
-	
-
 public:
     // Called every frame
     virtual void Tick(float DeltaTime) override;
@@ -57,7 +55,7 @@ public:
     bool isCOM;
     
     //the name of this tank
-    UPROPERTY(EditAnywhere)
+    UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Actor")
     FString name;
     
     //fires a shell

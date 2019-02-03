@@ -17,9 +17,6 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
     Super::BeginPlay();
-
-	//if this is a computer controlled tank, start the AI routine
-
 }
 
 // Called every frame

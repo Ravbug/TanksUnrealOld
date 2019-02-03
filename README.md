@@ -43,6 +43,7 @@ Goal is to reach parity with the Unity game, and perhaps extend on it
 - [x] Sounds (use Unity assets)
 - [x] music (use Unity assets)
 - [x] Build the arena
+- [ ] Tank engine idle and driving sounds
 - [ ] Tank AI: Pathfinding
 - [ ] Tank AI: Shooting (and not shooting when behind a wall - use a trigger collider for this)
 - [ ] Tank AI: Choosing targets (and aiming turret)

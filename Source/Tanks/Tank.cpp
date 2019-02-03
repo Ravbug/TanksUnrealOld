@@ -17,6 +17,9 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
     Super::BeginPlay();
+
+	//if this is a computer controlled tank, start the AI routine
+
 }
 
 // Called every frame
@@ -25,16 +28,18 @@ void ATank::Tick(float DeltaTime)
     Super::Tick(DeltaTime);
     
     //only run this every tickReset ticks
-    tick++;
-    tick %= tickReset;
-    if (tick == 0) {
-        //slow down the tank
-        velocity *= 0.99999999999;
-    }
-    //move the tank forward
-    FVector v = GetActorForwardVector().RotateAngleAxis(90, FVector::UpVector);
-    v *= velocity;
-    SetActorLocation(GetActorLocation() + v);
+	if (!isCOM) {
+		tick++;
+		tick %= tickReset;
+		if (tick == 0) {
+			//slow down the tank
+			velocity *= 0.99999999999;
+		}
+		//move the tank forward
+		FVector v = GetActorForwardVector().RotateAngleAxis(90, FVector::UpVector);
+		v *= velocity;
+		SetActorLocation(GetActorLocation() + v);
+	}
 
 	//engine sounds
 	FVector Vvel = GetVelocity();

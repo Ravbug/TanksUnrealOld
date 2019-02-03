@@ -4,9 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "GameFramework/DefaultPawn.h"
-#include "Components/BoxComponent.h"
-#include "Components/BillboardComponent.h"
 #include "Tank.generated.h"
 
 UCLASS()
@@ -42,6 +39,8 @@ protected:
 	//smooth movement
 	int velocity;
 	int maxSpeed = 10;
+
+	
 
 public:
     // Called every frame

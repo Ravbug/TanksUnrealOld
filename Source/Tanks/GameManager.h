@@ -7,9 +7,7 @@
 #include "Tank.h"
 #include "TimerManager.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "Camera/CameraComponent.h"
 #include <vector>
-#include <string>
 #include "GameManager.generated.h"
 
 USTRUCT(BlueprintType)
@@ -89,9 +87,6 @@ public:
     
     UPROPERTY(EditAnywhere,BlueprintReadWrite)
     USpringArmComponent* cameraMount;
-    
-    UPROPERTY(EditAnywhere)
-    UCameraComponent* camera;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Event")
 		void RoundStarting(int round);

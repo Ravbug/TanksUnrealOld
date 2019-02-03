@@ -5,9 +5,14 @@ The Unity Tanks! tutorial game, rewritten in Unreal Engine 4 and C++
 This repository contains my work for remaking the [Unity Tanks! Tutorial game](https://unity3d.com/learn/tutorials/s/tanks-tutorial) in [Unreal Engine 4](https://www.unrealengine.com/), the engine behind the popular game [Fortnite](http://fortnite.com/). 
 I am writing the game predominantly in C++, using blueprint subclassing where it's easier. My goal is to learn how to use Unreal, and provide a sample app for people looking to compare Unreal and Unity.
 
-## Software Used
-1. IDE: [Microsoft Visual Studio Community 2017](https://visualstudio.microsoft.com/)
-2. Engine: [Unreal Engine 4.21.1](https://www.unrealengine.com/en-US/eulacheck?state=https%3A%2F%2Fwww.unrealengine.com%2Fen-US%2Ffeed&studio=false)
+## Requirements:
+Software
+1. Engine: [Unreal Engine 4.21.1](https://www.unrealengine.com/en-US/eulacheck?state=https%3A%2F%2Fwww.unrealengine.com%2Fen-US%2Ffeed&studio=false)or newer
+2. IDE: [Microsoft Visual Studio Community 2017](https://visualstudio.microsoft.com/) or [Xcode](https://developer.apple.com/xcode/) 
+Hardware
+1. A decent discrete GPU and quad core CPU
+2. At least 15GB of disk space (for engine and IDE)
+3. At least 3GB of RAM
 
 ## Compiling it yourself
 1. Ensure you have the software listed above installed on your computer.

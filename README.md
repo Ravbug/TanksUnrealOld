@@ -30,8 +30,7 @@ Goal is to reach parity with the Unity game, and perhaps extend on it
 - [x] Spawn tanks on level load
 - [x] Track wins (configurable rounds needed to win game)
 - [x] Text to display round number and scoreboard
-- [ ] Display tank health in-game (Billboard?)
-- [ ] Low health tanks emit smoke
+- [x] Display tank health in-game (Billboard?)
 - [x] Smooth tank acceleration and deceleration when controlled
 - [x] Smooth camera acceleration and deceleration 
 - [x] Camera rotation 
@@ -39,12 +38,11 @@ Goal is to reach parity with the Unity game, and perhaps extend on it
 - [ ] fix zooming and rotating to avoid cutting off tanks
 - [x] Multiple round support (reset tanks after a delay)
 - [x] Convert the multiple arrays used for setup into a single array (like the Unity game) for easier and more idiot-proof config
-- [ ] Bullet particles and lighting
+- [x] Bullet particles and lighting
 - [x] Explosions effect
 - [x] Sounds (use Unity assets)
 - [x] music (use Unity assets)
 - [x] Build the arena
-- [ ] Dead tank actor to spawn where tanks die (or convert existing actor to dead variant)
 - [ ] Tank AI: Pathfinding
 - [ ] Tank AI: Shooting (and not shooting when behind a wall - use a trigger collider for this)
 - [ ] Tank AI: Choosing targets (and aiming turret)

@@ -54,6 +54,12 @@ public:
     UFUNCTION(BlueprintImplementableEvent, Category = "Actor")
     void Die();
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Actor")
+		void setHealthBar(float value);
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Actor")
+		void setDistanceBar(float value, bool visible);
+
 	//resets tank to default values
 	//partially implemented in Blueprints
 	void ResetSelf(FTransform newTransform);
@@ -70,7 +76,9 @@ public:
     int maxSpeed = 10;
     
     //stats
-    int health = 100;
+    
+	float maxHealth = 100;
+	int health = maxHealth;
     bool controlEnabled = false;
     
     //Controls

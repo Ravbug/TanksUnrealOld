@@ -46,15 +46,17 @@ void AGameManager::Tick(float DeltaTime)
 
 	//rotate the camera
 	FRotator newRotation = GetAverageRotation(rotations);
-	newRotation.Pitch = -70;
+
+	//determine the rotation offset
+	double distance = MaxDistance(vectors) * 0.5;
+	float pitch = abs(sin(newRotation.Yaw*PI / 180)) * rotationOffset * (distance / maxDistance);
+
+	newRotation.Pitch = -50 - pitch;
 	SetActorRotation(newRotation);
     
-    //zoom the camera
-    double distance = MaxDistance(vectors) * 0.4 + rotationOffset * abs(sin(newRotation.Yaw*PI/180));
-	UE_LOG(LogTemp, Warning, TEXT("offset = %f"), distance);
-    
-    //update the spring arm length (this doesn't work apparently)
-    cameraMount->TargetArmLength = distance;
+    //zoom the camera 
+    //update the spring arm length
+    cameraMount->TargetArmLength = distance + pow(500,FMath::Clamp((float)(distance / maxDistance),(float)0.0,(float)1));
     
     
     //check winner

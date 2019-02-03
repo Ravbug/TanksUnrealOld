@@ -61,6 +61,9 @@ void ATank::ResetSelf(FTransform newTransform) {
 	isDefeated = false;
 	SetActorTransform(newTransform);
 	SetSelfVisibility(true);
+	health = maxHealth;
+	setHealthBar(1);
+	setDistanceBar(0, false);
 }
 
 //called from whatever is controlling the tank
@@ -89,10 +92,12 @@ void ATank::ChargeShot(float amount) {
             //is the max power exceeded? if not, add to the power
             if (currentPower < maxPower) {
                 currentPower += amount;
+				setDistanceBar((currentPower-minPower) / (maxPower-minPower), true);
             }
             //if so, fire the shot and reset the power
             else {
                 Fire(maxPower);
+				setDistanceBar(0, false);
                 fired = true;
                 currentPower = minPower;
             }
@@ -107,11 +112,13 @@ void ATank::FireEarly() {
         if (!fired) {
             //Fire(int) is implemented in blueprint sublcass
             Fire(currentPower);
+			setDistanceBar(0, false);
             currentPower = minPower;
         }
         //reset fired variable
         else {
             fired = false;
+			setDistanceBar(0, false);
         }
     }
 }
@@ -121,6 +128,7 @@ void ATank::FireEarly() {
 void ATank::Damage(int amount) {
 	if (!isDefeated) {
 		health -= amount;
+		setHealthBar(health / maxHealth);
 		if (health <= 0) {
 			isDefeated = true;
 			controlEnabled = false;

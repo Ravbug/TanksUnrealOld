@@ -43,9 +43,17 @@ void ATank::Tick(float DeltaTime)
 	if (!isDefeated) {
 		if (vel > 0) {
 			//driving sound
+			if (!lastSource) {
+				setAudioSource(true);
+				lastSource = true;
+			}
 		}
 		else {
 			//idle sound
+			if (lastSource) {
+				setAudioSource(false);
+				lastSource = false;
+			}
 		}
 	}
 }
@@ -93,6 +101,7 @@ void ATank::ChargeShot(float amount) {
             if (currentPower < maxPower) {
                 currentPower += amount;
 				setDistanceBar((currentPower-minPower) / (maxPower-minPower), true);
+				playShotCharnging(true);
             }
             //if so, fire the shot and reset the power
             else {

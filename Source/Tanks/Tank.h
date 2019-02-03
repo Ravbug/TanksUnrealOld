@@ -27,7 +27,22 @@ protected:
     bool fired = false;
     //for increasing the deceleration time (smooth movement)
     int tick = 0, tickReset = 3;
+
+	//true = driving, false = idling
+	UFUNCTION(BlueprintImplementableEvent, Category = "Actor")
+		void setAudioSource(bool source);
+	bool lastSource = false;
     
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Actor")
+		void setDistanceBar(float value, bool visible);
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Actor")
+		void playShotCharnging(bool state);
+
+	//smooth movement
+	int velocity;
+	int maxSpeed = 10;
+
 public:
     // Called every frame
     virtual void Tick(float DeltaTime) override;
@@ -57,11 +72,7 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Actor")
 		void setHealthBar(float value);
 
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Actor")
-		void setDistanceBar(float value, bool visible);
-
 	//resets tank to default values
-	//partially implemented in Blueprints
 	void ResetSelf(FTransform newTransform);
     
 	UFUNCTION(BlueprintImplementableEvent, Category = "Actor")
@@ -70,13 +81,9 @@ public:
     //the tank gets damaged by explosions
     UFUNCTION(BlueprintCallable, Category="Actor")
     virtual void Damage(int amount);
-    
-    //smooth movement
-    int velocity;
-    int maxSpeed = 10;
+   
     
     //stats
-    
 	float maxHealth = 100;
 	int health = maxHealth;
     bool controlEnabled = false;

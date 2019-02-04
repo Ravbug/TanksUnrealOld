@@ -7,7 +7,7 @@ I am writing the game predominantly in C++, using blueprint subclassing where it
 
 ## Requirements:
 Software
-1. Engine: [Unreal Engine 4.21.1](https://www.unrealengine.com/en-US/eulacheck?state=https%3A%2F%2Fwww.unrealengine.com%2Fen-US%2Ffeed&studio=false)or newer
+1. Engine: [Unreal Engine 4.21.1](https://www.unrealengine.com/en-US/eulacheck?state=https%3A%2F%2Fwww.unrealengine.com%2Fen-US%2Ffeed&studio=false) or newer
 2. IDE: [Microsoft Visual Studio Community 2017](https://visualstudio.microsoft.com/) or [Xcode](https://developer.apple.com/xcode/) 
 
 Hardware
@@ -39,9 +39,9 @@ Goal is to reach parity with the Unity game, and perhaps extend on it
 - [x] Display tank health in-game (Billboard?)
 - [x] Smooth tank acceleration and deceleration when controlled
 - [x] Smooth camera acceleration and deceleration 
-- [x] Camera rotation 
+- [x] Camera rotation (feature removed, caused too many problems)
 - [x] Dynamic camera zooming
-- [ ] fix zooming and rotating to avoid cutting off tanks
+- [x] fix zooming and rotating to avoid cutting off tanks
 - [x] Multiple round support (reset tanks after a delay)
 - [x] Convert the multiple arrays used for setup into a single array (like the Unity game) for easier and more idiot-proof config
 - [x] Bullet particles and lighting
@@ -50,6 +50,7 @@ Goal is to reach parity with the Unity game, and perhaps extend on it
 - [x] music (use Unity assets)
 - [x] Build the arena
 - [x] Tank engine idle and driving sounds
+- [ ] Force engine to drop frames instead of running the game more slowly
 - [ ] Tank AI: Pathfinding
 - [ ] Tank AI: Shooting (and not shooting when behind a wall - use a trigger collider for this)
 - [ ] Tank AI: Choosing targets (and aiming turret)

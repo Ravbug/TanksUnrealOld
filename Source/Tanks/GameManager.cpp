@@ -56,7 +56,7 @@ void AGameManager::Tick(float DeltaTime)
     
     //zoom the camera 
     //update the spring arm length
-    cameraMount->TargetArmLength = distance;
+    cameraMount->TargetArmLength = distance * 1.2;
     
     
     //check winner

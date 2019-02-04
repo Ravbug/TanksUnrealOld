@@ -31,7 +31,7 @@ void ATank::Tick(float DeltaTime)
 		tick %= tickReset;
 		if (tick == 0) {
 			//slow down the tank
-			velocity *= 0.99999999999;
+			velocity -= velocity * 0.05 * deltaTime/evalNormal;
 		}
 		//move the tank forward
 		FVector v = GetActorForwardVector().RotateAngleAxis(90, FVector::UpVector);

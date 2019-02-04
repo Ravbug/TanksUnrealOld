@@ -39,7 +39,10 @@ protected:
 	//smooth movement
 	int velocity;
 	int maxSpeed = 10;
-
+    
+    //for scaling to make the game framerate independent
+    float deltaTime = 0;            //deltatime stored from Tick()
+    float evalNormal = 1.0/120;     //1 / the "normal" tick speed. Values in this game assume 120hz is the normal tick speed. To scale, multiply the value by deltaTime/evalNormal
 public:
     // Called every frame
     virtual void Tick(float DeltaTime) override;

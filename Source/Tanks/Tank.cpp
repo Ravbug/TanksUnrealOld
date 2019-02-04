@@ -23,7 +23,8 @@ void ATank::BeginPlay()
 void ATank::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
-    
+    deltaTime = DeltaTime;
+        
     //only run this every tickReset ticks
 	if (!isCOM) {
 		tick++;
@@ -80,8 +81,8 @@ void ATank::ResetSelf(FTransform newTransform) {
 //changes the velocity which moves the tank
 void ATank::MoveForward(float amount) {
 	if (controlEnabled) {
-		if (abs(velocity) < maxSpeed) {
-			velocity += amount;
+		if (abs(velocity) < maxSpeed * deltaTime/evalNormal) {
+			velocity += amount * deltaTime/evalNormal;
 		}
 	}
 }
@@ -90,6 +91,8 @@ void ATank::MoveForward(float amount) {
 //called by class that controls this tank
 void ATank::Rotate(float amount) {
     if (controlEnabled) {
+        //scale for deltaTime
+        amount *= deltaTime/evalNormal;
         SetActorRotation(GetActorRotation().Add(0, amount, 0));
     }
 }
@@ -101,7 +104,7 @@ void ATank::ChargeShot(float amount) {
         if (amount > 0) {
             //is the max power exceeded? if not, add to the power
             if (currentPower < maxPower) {
-                currentPower += amount;
+                currentPower += amount * deltaTime/evalNormal;
 				setDistanceBar((currentPower-minPower) / (maxPower-minPower), true);
 				playShotCharnging(true);
             }

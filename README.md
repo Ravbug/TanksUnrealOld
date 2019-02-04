@@ -13,7 +13,7 @@ Software
 Hardware
 1. A decent discrete GPU and quad core CPU
 2. At least 15GB of disk space (for engine and IDE)
-3. At least 3GB of RAM
+3. At least 4GB of RAM
 
 ## Compiling it yourself
 1. Ensure you have the software listed above installed on your computer.
@@ -50,7 +50,7 @@ Goal is to reach parity with the Unity game, and perhaps extend on it
 - [x] music (use Unity assets)
 - [x] Build the arena
 - [x] Tank engine idle and driving sounds
-- [ ] Make game framerate independent
+- [x] Make game framerate independent
 - [ ] Tank AI: Pathfinding
 - [ ] Tank AI: Shooting (and not shooting when behind a wall - use a trigger collider for this)
 - [ ] Tank AI: Choosing targets (and aiming turret)
@@ -58,8 +58,8 @@ Goal is to reach parity with the Unity game, and perhaps extend on it
 - [ ] Main menu
 - [ ] Configuration (game rules) menu 
 - [ ] Experiment with deployment
-- [ ] Maybe: Networked multiplayer?
-- [ ] Maybe: control turret separate from chassis?
+- [ ] Maybe: Networked multiplayer
+- [ ] Maybe: control turret separate from chassis
 - [ ] Maybe: Land mines
 - [ ] Maybe: Time of day
 - [ ] Maybe: Flash tank red when hit

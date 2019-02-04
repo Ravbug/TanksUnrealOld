@@ -55,6 +55,7 @@ Goal is to reach parity with the Unity game, and perhaps extend on it
 - [ ] Tank AI: Shooting (and not shooting when behind a wall - use a trigger collider for this)
 - [ ] Tank AI: Choosing targets (and aiming turret)
 - [ ] Game controller support
+- [ ] Mobile touch support
 - [ ] Main menu
 - [ ] Configuration (game rules) menu 
 - [ ] Experiment with deployment

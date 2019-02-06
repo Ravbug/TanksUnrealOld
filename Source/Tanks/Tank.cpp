@@ -17,6 +17,10 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
     Super::BeginPlay();
+    //start the AI loop if is COM
+    if (isCOM){
+        GetWorldTimerManager().SetTimer(AITimer, this, &ATank::RunDriveLoop, 3, false);
+    }
 }
 
 // Called every frame
@@ -150,4 +154,45 @@ void ATank::Damage(int amount) {
 			Die();
 		}
 	}
+}
+
+//AI Functions below
+
+//routine for driving
+void ATank::RunDriveLoop(){
+   // AAIController* ac = (AAIController*)GetController();
+    
+    if (AIchaseMode){
+        //find the closest tank to target
+        //Invoke UFUNCTION to pursue target
+        //Invoke shooting routine
+        //if gets too close to target, cancel out
+        //invert AIchaseMode
+        //Invoke cancel movement UFUNCTION, then re-invoke RunDriveLoop
+    }
+    else{
+        //Back up slowly, rotate to face target (maybe try to predict where they'll be?)
+        //drive there with a timeout
+        FVector target = FVector(0,0,0);
+        DriveToLocation(target);
+        //invert AIchaseMode
+        //invoke cancel movement UFUNCTION, then reinvoke rundriveloop
+    }
+    
+    //see AAIController::MoveToLocation on the documentation
+   // UNavFilter_AIControllerDefault nqf;
+    //ac->MoveToLocation(FVector(0,0,0));
+   // UE_LOG(LogTemp,Warning,TEXT("Running RunDriveLoop"));
+    //UNavigationSystem::SimpleMoveToLocation(ac, FVector(0,0,0));
+}
+
+//routine for shooting
+void ATank::RunShootLoop(){
+    if (AIchaseMode){
+        //Shoot as often as possible, if area in front of tank is clear
+        //rotate to face direction of travel
+    }
+    else{
+        //Shoot faster if target is closer
+    }
 }

@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "Classes/AIController.h"
+#include "Classes/AI/NavigationSystemBase.h"
 #include "Tank.generated.h"
 
 UCLASS()
@@ -40,8 +42,13 @@ protected:
 	void RunDriveLoop();
 	void RunShootLoop();
 	UFUNCTION(BlueprintImplementableEvent, Category = "CustomAI")
-		void DriveToLocation(FVector& target);
-
+		void DriveToLocation(FVector target);
+    UFUNCTION(BlueprintImplementableEvent, Category = "CustomAI")
+        void PursueActor(AActor* target);
+    UFUNCTION(BlueprintImplementableEvent,Category="CustomAI")
+        void StopMovement();
+    FTimerHandle AITimer;
+    bool AIchaseMode = false;   //True = tank will agressively pursue target, false = tank will flee 
 		
 	//smooth movement
 	int velocity;

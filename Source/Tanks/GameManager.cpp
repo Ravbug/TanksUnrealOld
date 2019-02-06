@@ -111,8 +111,9 @@ void AGameManager::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
             else {
                 name = "PLAYER " + name;
             }
-            ATank* t = SpawnTank(TankProperties[i].Color, TankProperties[i].Spawnpoint->GetActorTransform());
+            ATank* t = SpawnTank(TankProperties[i].Color, TankProperties[i].Spawnpoint->GetActorTransform(),TankProperties[i].isCOM);
 			t->name = name;
+			t->isCOM = TankProperties[i].isCOM;
             tanks.Add(t);
         }
         //setup wins array

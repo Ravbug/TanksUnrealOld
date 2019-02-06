@@ -83,9 +83,9 @@ public:
     TArray<FTankTracker> TankProperties;
     
     UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Event")
-    ATank* SpawnTank(FColor color, FTransform pos);
+    ATank* SpawnTank(FColor color, FTransform pos, bool COM);
     
-    UPROPERTY(EditAnywhere,BlueprintReadWrite)
+    UPROPERTY(EditAnywhere)
     USpringArmComponent* cameraMount;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Event")

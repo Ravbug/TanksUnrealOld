@@ -36,6 +36,13 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Actor")
 		void playShotCharnging(bool state);
 
+	//for custom AI, since Behavior Trees are too complex for this basic of a project
+	void RunDriveLoop();
+	void RunShootLoop();
+	UFUNCTION(BlueprintImplementableEvent, Category = "CustomAI")
+		void DriveToLocation(FVector& target);
+
+		
 	//smooth movement
 	int velocity;
 	int maxSpeed = 10;
@@ -54,7 +61,7 @@ public:
     UStaticMesh* Mesh;
     
     //whether or not this tank is computer-controlled
-    UPROPERTY(EditAnywhere)
+    UPROPERTY(EditAnywhere, BlueprintReadOnly)
     bool isCOM;
     
     //the name of this tank

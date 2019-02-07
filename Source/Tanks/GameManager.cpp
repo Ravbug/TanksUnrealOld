@@ -116,6 +116,13 @@ void AGameManager::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 			t->isCOM = TankProperties[i].isCOM;
             tanks.Add(t);
         }
+        //tell the COMs who the other tanks are
+        for (ATank* t : tanks){
+            if (t->isCOM){
+                t->OtherTanks = TArray<ATank*>(tanks);
+                t->OtherTanks.Remove(t);
+            }
+        }
         //setup wins array
         setup = true;
     }

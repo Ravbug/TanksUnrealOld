@@ -48,8 +48,10 @@ protected:
     UFUNCTION(BlueprintImplementableEvent,Category="CustomAI")
         void StopMovement();
     FTimerHandle AITimer;
-    bool AIchaseMode = false;   //True = tank will agressively pursue target, false = tank will flee 
-		
+    bool AIchaseMode = false;   //True = tank will agressively pursue target, false = tank will flee
+    UPROPERTY(BlueprintReadWrite,Category="CustomAI")
+        bool CanShoot = true;          //determines if the AI can shoot without damaging itself (object close to barrel)
+    
 	//smooth movement
 	int velocity;
 	int maxSpeed = 10;
@@ -63,6 +65,9 @@ public:
     
     // Called to bind functionality to input
     virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+    
+    //For AI, holds a list of targets if Is COM
+    TArray<ATank*> OtherTanks;   //array of possible targets
     
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Test")
     UStaticMesh* Mesh;

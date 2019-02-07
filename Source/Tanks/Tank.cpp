@@ -156,7 +156,7 @@ void ATank::Damage(int amount) {
 	}
 }
 
-//AI Functions below
+// ------------------------------- AI Functions below -------------------------------------
 
 //routine for driving
 void ATank::RunDriveLoop(){
@@ -196,3 +196,5 @@ void ATank::RunShootLoop(){
         //Shoot faster if target is closer
     }
 }
+
+

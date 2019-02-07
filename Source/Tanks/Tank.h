@@ -4,8 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "Classes/AIController.h"
-#include "Classes/AI/NavigationSystemBase.h"
 #include "Tank.generated.h"
 
 UCLASS()
@@ -48,9 +46,14 @@ protected:
     UFUNCTION(BlueprintImplementableEvent,Category="CustomAI")
         void StopMovement();
     FTimerHandle AITimer;
+    FTimerHandle AISwapTimer;
+    void SwapChaseMode(){AIchaseMode = !AIchaseMode;}
     bool AIchaseMode = false;   //True = tank will agressively pursue target, false = tank will flee
     UPROPERTY(BlueprintReadWrite,Category="CustomAI")
         bool CanShoot = true;          //determines if the AI can shoot without damaging itself (object close to barrel)
+    FVector targetPos;
+    AActor* targetActor;
+    AActor* ClosestTarget();
     
 	//smooth movement
 	int velocity;

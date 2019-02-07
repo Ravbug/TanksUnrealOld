@@ -42,6 +42,17 @@ void ATank::Tick(float DeltaTime)
 		v *= velocity;
 		SetActorLocation(GetActorLocation() + v);
 	}
+    else if (!AIchaseMode && controlEnabled){
+        //back up slowly and aim towards target
+        FVector v = GetActorForwardVector().RotateAngleAxis(90, FVector::UpVector);
+        SetActorLocation(GetActorLocation() + v*(-maxSpeed/2));
+        
+        //rotate towards target
+        
+    }
+    else if (AIchaseMode && controlEnabled){
+        //rotate to face direction of travel
+    }
 
 	//engine sounds
 	FVector Vvel = GetVelocity();
@@ -164,19 +175,25 @@ void ATank::RunDriveLoop(){
     
     if (AIchaseMode){
         //find the closest tank to target
+        targetActor = ClosestTarget();
         //Invoke UFUNCTION to pursue target
+        PursueActor(targetActor);
         //Invoke shooting routine
         //if gets too close to target, cancel out
         //invert AIchaseMode
-        //Invoke cancel movement UFUNCTION, then re-invoke RunDriveLoop
+        GetWorldTimerManager().SetTimer(AISwapTimer, this, &ATank::SwapChaseMode, 4.5, false);
+        GetWorldTimerManager().SetTimer(AITimer, this, &ATank::RunDriveLoop, 5, false);
     }
     else{
+        //Invoke cancel movement UFUNCTION, then re-invoke RunDriveLoop
+        StopMovement();
         //Back up slowly, rotate to face target (maybe try to predict where they'll be?)
-        //drive there with a timeout
-        FVector target = FVector(0,0,0);
-        DriveToLocation(target);
+        targetActor = ClosestTarget();
+        
         //invert AIchaseMode
-        //invoke cancel movement UFUNCTION, then reinvoke rundriveloop
+        GetWorldTimerManager().SetTimer(AISwapTimer, this, &ATank::SwapChaseMode, 4.5, false);
+        GetWorldTimerManager().SetTimer(AITimer, this, &ATank::RunDriveLoop, 5, false);
+
     }
     
     //see AAIController::MoveToLocation on the documentation
@@ -197,4 +214,17 @@ void ATank::RunShootLoop(){
     }
 }
 
-
+//determines the closest target to the current tank
+AActor* ATank::ClosestTarget(){
+    FVector pos = GetActorLocation();
+    AActor* closest = OtherTanks[0];
+    double minDist = 10000;
+    for (AActor* a : OtherTanks){
+        double dist = FVector::Dist(pos,a->GetActorLocation());
+        if (dist < minDist){
+            closest = a;
+            minDist = dist;
+        }
+    }
+    return closest;
+}

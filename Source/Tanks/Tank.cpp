@@ -48,10 +48,35 @@ void ATank::Tick(float DeltaTime)
         SetActorLocation(GetActorLocation() + v*(-maxSpeed/2));
         
         //rotate towards target
+        //calculate the angle between the vector
+        FVector target = targetActor->GetActorLocation();
+        FVector pos = GetActorLocation();
+        FRotator newRot = UKismetMathLibrary::FindLookAtRotation(target,pos).Add(0, 90, 0);
+        
+        FRotator current = GetActorRotation();
+        //set the rotation
+        if (newRot.Yaw - current.Yaw < 0){
+            SetActorRotation(current.Add(0, -2, 0));
+        }
+        else{
+            SetActorRotation(current.Add(0, 2, 0));
+        }
         
     }
     else if (AIchaseMode && controlEnabled){
         //rotate to face direction of travel
+        FVector v = GetVelocity();
+        FVector loc = GetActorLocation();
+        FRotator newRot = UKismetMathLibrary::FindLookAtRotation(loc,v+loc).Add(0, 90, 0);
+ 
+        FRotator current = GetActorRotation();
+        //set the rotation
+        if (newRot.Yaw - current.Yaw < 0){
+            SetActorRotation(current.Add(0, 5, 0));
+        }
+        else{
+            SetActorRotation(current.Add(0, -5, 0));
+        }
     }
 
 	//engine sounds
@@ -180,20 +205,17 @@ void ATank::RunDriveLoop(){
         PursueActor(targetActor);
         //Invoke shooting routine
         //if gets too close to target, cancel out
-        //invert AIchaseMode
-        GetWorldTimerManager().SetTimer(AISwapTimer, this, &ATank::SwapChaseMode, 4.5, false);
-        GetWorldTimerManager().SetTimer(AITimer, this, &ATank::RunDriveLoop, 5, false);
     }
     else{
         //Invoke cancel movement UFUNCTION, then re-invoke RunDriveLoop
         StopMovement();
         //Back up slowly, rotate to face target (maybe try to predict where they'll be?)
         targetActor = ClosestTarget();
-        
-        //invert AIchaseMode
+
+    }
+    if (!isDefeated){
         GetWorldTimerManager().SetTimer(AISwapTimer, this, &ATank::SwapChaseMode, 4.5, false);
         GetWorldTimerManager().SetTimer(AITimer, this, &ATank::RunDriveLoop, 5, false);
-
     }
     
     //see AAIController::MoveToLocation on the documentation

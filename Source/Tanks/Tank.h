@@ -53,6 +53,7 @@ protected:
     UPROPERTY(BlueprintReadWrite,Category="CustomAI")
         bool CanShoot = true;          //determines if the AI can shoot without damaging itself (object close to barrel)
     FVector targetPos;
+    FVector prevPos;
     AActor* targetActor;
     AActor* ClosestTarget();
     

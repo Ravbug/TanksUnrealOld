@@ -65,17 +65,20 @@ void ATank::Tick(float DeltaTime)
     }
     else if (AIchaseMode && controlEnabled){
         //rotate to face direction of travel
-        FVector v = GetVelocity();
+        //FVector v = GetVelocity();
         FVector loc = GetActorLocation();
-        FRotator newRot = UKismetMathLibrary::FindLookAtRotation(loc,loc+v).Add(0, 90, 0);
+        FRotator newRot = UKismetMathLibrary::FindLookAtRotation(loc,prevPos).Add(0, 90, 0);
         FRotator current = GetActorRotation();
+        UE_LOG(LogTemp, Warning, TEXT("newrot = %f"),newRot.Yaw);
         //set the rotation
-        /*if (newRot.Yaw - current.Yaw < 0){
-            SetActorRotation(current.Add(0, 5 * deltaTime/evalNormal, 0));
+        int rotSpeed = /*fmin(2,newRot.Yaw-current.Yaw)*/ 2;
+        if (newRot.Yaw - current.Yaw < 0){
+            SetActorRotation(current.Add(0, -rotSpeed * deltaTime/evalNormal, 0));
         }
         else{
-            SetActorRotation(current.Add(0, -5 * deltaTime/evalNormal, 0));
-        }*/
+            SetActorRotation(current.Add(0, rotSpeed * deltaTime/evalNormal, 0));
+        }
+        prevPos = loc;
     }
 
 	//engine sounds

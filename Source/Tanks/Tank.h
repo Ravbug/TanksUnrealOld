@@ -38,7 +38,8 @@ protected:
 		void playShotCharnging(bool state);
 
 	//for custom AI, since Behavior Trees are too complex for this basic of a project
-	void RunDriveLoop();
+	UFUNCTION(BlueprintCallable, Category="CustomAI")
+		void RunDriveLoop();
 	void RunShootLoop();
 	UFUNCTION(BlueprintImplementableEvent, Category = "CustomAI")
 		void DriveToLocation(FVector target);
@@ -49,7 +50,8 @@ protected:
     FTimerHandle AITimer;
     FTimerHandle AISwapTimer;
     void SwapChaseMode(){AIchaseMode = !AIchaseMode;}
-    bool AIchaseMode = false;   //True = tank will agressively pursue target, false = tank will flee
+	UPROPERTY(BlueprintreadWrite, Category="CustomAI")
+	  bool AIchaseMode = false;   //True = tank will agressively pursue target, false = tank will flee
     UPROPERTY(BlueprintReadWrite,Category="CustomAI")
         bool CanShoot = true;          //determines if the AI can shoot without damaging itself (object close to barrel)
     FVector targetPos;

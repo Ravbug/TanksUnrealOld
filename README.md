@@ -51,9 +51,9 @@ Goal is to reach parity with the Unity game, and perhaps extend on it
 - [x] Build the arena
 - [x] Tank engine idle and driving sounds
 - [x] Make game framerate independent
-- [ ] Tank AI: Pathfinding
-- [ ] Tank AI: Shooting (and not shooting when behind a wall - use a trigger collider for this)
-- [ ] Tank AI: Choosing targets (and aiming turret)
+- [x] Tank AI: Pathfinding
+- [x] Tank AI: Shooting (and not shooting when behind a wall - use a trigger collider for this)
+- [x] Tank AI: Choosing targets (and aiming turret)
 - [ ] Game controller support
 - [ ] Mobile touch support
 - [ ] Main menu

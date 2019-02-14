@@ -118,8 +118,11 @@ void ATank::ResetSelf(FTransform newTransform) {
 	health = maxHealth;
 	setHealthBar(1);
 	setDistanceBar(0, false);
-	GetWorldTimerManager().SetTimer(AITimer, this, &ATank::RunDriveLoop, 3, false);
-	GetWorldTimerManager().SetTimer(AIShootTimer, this, &ATank::RunShootLoop, 3, false);
+	if (isCOM) {
+		GetWorldTimerManager().SetTimer(AITimer, this, &ATank::RunDriveLoop, 3, false);
+		GetWorldTimerManager().SetTimer(AIShootTimer, this, &ATank::RunShootLoop, 3, false);
+		CanShoot = true;
+	}
 }
 
 //called from whatever is controlling the tank
@@ -218,8 +221,9 @@ void ATank::RunDriveLoop(){
 
     }
     if (!isDefeated){
-        GetWorldTimerManager().SetTimer(AISwapTimer, this, &ATank::SwapChaseMode, 4.5, false);
-        GetWorldTimerManager().SetTimer(AITimer, this, &ATank::RunDriveLoop, 5, false);
+		float switchTime = FMath::RandRange(1,5);
+        GetWorldTimerManager().SetTimer(AISwapTimer, this, &ATank::SwapChaseMode, switchTime-0.5, false);
+        GetWorldTimerManager().SetTimer(AITimer, this, &ATank::RunDriveLoop, switchTime, false);
     }
     
     //see AAIController::MoveToLocation on the documentation
@@ -232,18 +236,19 @@ void ATank::RunDriveLoop(){
 //routine for shooting
 void ATank::RunShootLoop(){
 	//fire (if nothing blocking the turret
-	if (CanShoot) {
+	if (CanShoot && controlEnabled) {
 		Fire(currentPower);
 	}
 	//calculate the distance to the target
 	if (targetActor) {
 		float dist = FVector::Dist(GetActorLocation(), targetActor->GetActorLocation());
 		//remap the values into the fire strength range
-		currentPower = remapValue(dist, 0, 2000, minPower, maxPower);
+		currentPower = remapValue(dist, 0, 7000, minPower, maxPower);
 		//wait for the amount of time needed to fire this
 	}
 	if (!isDefeated) {
-		GetWorldTimerManager().SetTimer(AIShootTimer, this, &ATank::RunShootLoop, 3, false);
+		float time_delay = remapValue(currentPower, minPower, maxPower, 0.5, 2);
+		GetWorldTimerManager().SetTimer(AIShootTimer, this, &ATank::RunShootLoop, time_delay, false);
 	}
 
     if (AIchaseMode){

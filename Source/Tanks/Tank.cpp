@@ -19,7 +19,9 @@ void ATank::BeginPlay()
     Super::BeginPlay();
     //start the AI loop if is COM
     if (isCOM){
+		targetActor = ClosestTarget();
         GetWorldTimerManager().SetTimer(AITimer, this, &ATank::RunDriveLoop, 3, false);
+		GetWorldTimerManager().SetTimer(AIShootTimer, this, &ATank::RunShootLoop, 3, false);
     }
 }
 
@@ -69,7 +71,6 @@ void ATank::Tick(float DeltaTime)
         FVector loc = GetActorLocation();
         FRotator newRot = UKismetMathLibrary::FindLookAtRotation(loc,prevPos).Add(0, 90, 0);
         FRotator current = GetActorRotation();
-        UE_LOG(LogTemp, Warning, TEXT("newrot = %f"),newRot.Yaw);
         //set the rotation
         int rotSpeed = /*fmin(2,newRot.Yaw-current.Yaw)*/ 2;
         if (newRot.Yaw - current.Yaw < 0){
@@ -117,6 +118,8 @@ void ATank::ResetSelf(FTransform newTransform) {
 	health = maxHealth;
 	setHealthBar(1);
 	setDistanceBar(0, false);
+	GetWorldTimerManager().SetTimer(AITimer, this, &ATank::RunDriveLoop, 3, false);
+	GetWorldTimerManager().SetTimer(AIShootTimer, this, &ATank::RunShootLoop, 3, false);
 }
 
 //called from whatever is controlling the tank
@@ -199,7 +202,6 @@ void ATank::Damage(int amount) {
 //routine for driving
 void ATank::RunDriveLoop(){
    // AAIController* ac = (AAIController*)GetController();
-    
     if (AIchaseMode){
         //find the closest tank to target
         targetActor = ClosestTarget();
@@ -229,6 +231,21 @@ void ATank::RunDriveLoop(){
 
 //routine for shooting
 void ATank::RunShootLoop(){
+	//fire (if nothing blocking the turret
+	if (CanShoot) {
+		Fire(currentPower);
+	}
+	//calculate the distance to the target
+	if (targetActor) {
+		float dist = FVector::Dist(GetActorLocation(), targetActor->GetActorLocation());
+		//remap the values into the fire strength range
+		currentPower = remapValue(dist, 0, 2000, minPower, maxPower);
+		//wait for the amount of time needed to fire this
+	}
+	if (!isDefeated) {
+		GetWorldTimerManager().SetTimer(AIShootTimer, this, &ATank::RunShootLoop, 3, false);
+	}
+
     if (AIchaseMode){
         //Shoot as often as possible, if area in front of tank is clear
         //rotate to face direction of travel
@@ -251,4 +268,8 @@ AActor* ATank::ClosestTarget(){
         }
     }
     return closest;
+}
+
+float ATank::remapValue(float value, float oldmin, float oldmax, float newmin, float newmax) {
+	return newmin + (value - oldmin)*(newmax - newmin) / (oldmax - oldmin);
 }

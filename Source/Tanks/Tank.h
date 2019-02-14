@@ -45,9 +45,10 @@ protected:
 		void DriveToLocation(FVector target);
     UFUNCTION(BlueprintImplementableEvent, Category = "CustomAI")
         void PursueActor(AActor* target);
-    UFUNCTION(BlueprintImplementableEvent,Category="CustomAI")
+    UFUNCTION(BlueprintImplementableEvent,BlueprintCallable,Category="CustomAI")
         void StopMovement();
     FTimerHandle AITimer;
+	FTimerHandle AIShootTimer;
     FTimerHandle AISwapTimer;
     void SwapChaseMode(){AIchaseMode = !AIchaseMode;}
 	UPROPERTY(BlueprintreadWrite, Category="CustomAI")
@@ -62,6 +63,9 @@ protected:
 	//smooth movement
 	int velocity;
 	int maxSpeed = 10;
+
+	//remaps a value to fit a new high/low
+	float remapValue(float value, float oldmin, float oldmax, float newmin, float newmax);
     
     //for scaling to make the game framerate independent
     float deltaTime = 0;            //deltatime stored from Tick()

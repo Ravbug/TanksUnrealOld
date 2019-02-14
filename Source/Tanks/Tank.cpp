@@ -22,6 +22,7 @@ void ATank::BeginPlay()
 		targetActor = ClosestTarget();
         GetWorldTimerManager().SetTimer(AITimer, this, &ATank::RunDriveLoop, 3, false);
 		GetWorldTimerManager().SetTimer(AIShootTimer, this, &ATank::RunShootLoop, 3, false);
+        StopMovement();
     }
 }
 

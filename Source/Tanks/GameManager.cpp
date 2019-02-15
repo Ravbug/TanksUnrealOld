@@ -102,19 +102,25 @@ void AGameManager::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
     //prevent duplicating all the tanks
     if (!setup) {
         //spawn all the tanks
+        int offset = 0;
         for (int i = 0; i < TankProperties.Num(); i++) {
-            FString name;
-            name.AppendInt(i);
-            if (TankProperties[i].isCOM) {
-                name = "COM " + name;
+            if (TankProperties[i-offset].isEnabled){
+                FString name;
+                name.AppendInt(i-offset);
+                if (TankProperties[i-offset].isCOM) {
+                    name = "COM " + name;
+                }
+                else {
+                    name = "PLAYER " + name;
+                }
+                ATank* t = SpawnTank(TankProperties[i-offset].Color, TankProperties[i-offset].Spawnpoint->GetActorTransform(),TankProperties[i-offset].isCOM);
+                t->name = name;
+                t->isCOM = TankProperties[i-offset].isCOM;
+                tanks.Add(t);
             }
-            else {
-                name = "PLAYER " + name;
+            else{
+                offset++;
             }
-            ATank* t = SpawnTank(TankProperties[i].Color, TankProperties[i].Spawnpoint->GetActorTransform(),TankProperties[i].isCOM);
-			t->name = name;
-			t->isCOM = TankProperties[i].isCOM;
-            tanks.Add(t);
         }
         //tell the COMs who the other tanks are
         for (ATank* t : tanks){

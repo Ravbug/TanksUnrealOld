@@ -14,11 +14,13 @@ USTRUCT(BlueprintType)
 struct FTankTracker {
     GENERATED_USTRUCT_BODY()
     UPROPERTY(EditAnywhere)
-    FColor Color;
+        FColor Color;
     UPROPERTY(EditAnywhere)
-    bool isCOM;
+        bool isCOM;
     UPROPERTY(EditAnywhere)
-    AActor* Spawnpoint;
+        AActor* Spawnpoint;
+    UPROPERTY(EditAnywhere)
+        bool isEnabled = true;
 };
 
 UCLASS()

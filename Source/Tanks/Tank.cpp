@@ -22,7 +22,6 @@ void ATank::BeginPlay()
 		targetActor = ClosestTarget();
         GetWorldTimerManager().SetTimer(AITimer, this, &ATank::RunDriveLoop, 3, false);
 		GetWorldTimerManager().SetTimer(AIShootTimer, this, &ATank::RunShootLoop, 3, false);
-        StopMovement();
     }
 }
 
@@ -123,6 +122,7 @@ void ATank::ResetSelf(FTransform newTransform) {
 		GetWorldTimerManager().SetTimer(AITimer, this, &ATank::RunDriveLoop, 3, false);
 		GetWorldTimerManager().SetTimer(AIShootTimer, this, &ATank::RunShootLoop, 3, false);
 		CanShoot = true;
+        StopMovement();
 	}
 }
 
@@ -248,7 +248,7 @@ void ATank::RunShootLoop(){
 		//wait for the amount of time needed to fire this
 	}
 	if (!isDefeated) {
-		float time_delay = remapValue(currentPower, minPower, maxPower, 0.5, 2);
+		float time_delay = remapValue(currentPower, minPower, maxPower, 1, 2.5);
 		GetWorldTimerManager().SetTimer(AIShootTimer, this, &ATank::RunShootLoop, time_delay, false);
 	}
 

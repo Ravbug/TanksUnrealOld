@@ -16,6 +16,7 @@ ATank::ATank()
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {
+	spawnPoint = GetActorTransform();
     Super::BeginPlay();
     //start the AI loop if is COM
     if (isCOM){
@@ -110,10 +111,10 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
     Super::SetupPlayerInputComponent(PlayerInputComponent);  
 }
 
-void ATank::ResetSelf(FTransform newTransform) {
+void ATank::ResetSelf() {
 	currentPower = minPower;
 	isDefeated = false;
-	SetActorTransform(newTransform);
+	SetActorTransform(spawnPoint);
 	SetSelfVisibility(true);
 	health = maxHealth;
 	setHealthBar(1);

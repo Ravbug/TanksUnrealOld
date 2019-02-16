@@ -103,7 +103,7 @@ public:
 		void setHealthBar(float value);
 
 	//resets tank to default values
-	void ResetSelf(FTransform newTransform);
+	void ResetSelf();
     
 	UFUNCTION(BlueprintImplementableEvent, Category = "Actor")
 		void SetSelfVisibility(bool visible);
@@ -117,6 +117,7 @@ public:
 	float maxHealth = 100;
 	int health = maxHealth;
     bool controlEnabled = false;
+	FTransform spawnPoint;
     
     //Controls
     //movement (called by the tank controller class)

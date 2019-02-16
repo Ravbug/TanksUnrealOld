@@ -102,24 +102,21 @@ void AGameManager::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
     //prevent duplicating all the tanks
     if (!setup) {
         //spawn all the tanks
-        int offset = 0;
         for (int i = 0; i < TankProperties.Num(); i++) {
-            if (TankProperties[i-offset].isEnabled){
+            if (TankProperties[i].isEnabled){
                 FString name;
-                name.AppendInt(i-offset);
-                if (TankProperties[i-offset].isCOM) {
+                name.AppendInt(i);
+                if (TankProperties[i].isCOM) {
                     name = "COM " + name;
                 }
                 else {
                     name = "PLAYER " + name;
                 }
-                ATank* t = SpawnTank(TankProperties[i-offset].Color, TankProperties[i-offset].Spawnpoint->GetActorTransform(),TankProperties[i-offset].isCOM);
-                t->name = name;
-                t->isCOM = TankProperties[i-offset].isCOM;
-                tanks.Add(t);
-            }
-            else{
-                offset++;
+                ATank* t = SpawnTank(TankProperties[i].Color, TankProperties[i].Spawnpoint->GetActorTransform(),TankProperties[i].isCOM);
+
+				t->name = name;
+				t->isCOM = TankProperties[i].isCOM;
+				tanks.Add(t);		
             }
         }
         //tell the COMs who the other tanks are
@@ -142,9 +139,8 @@ void AGameManager::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 void AGameManager::ResetTanks() {
 	roundWon = false;
 	RoundStarting(currentRound);
-	for (int i = 0; i < TankProperties.Num(); i++) {
-		ATank* tank = tanks[i];
-		tank->ResetSelf(TankProperties[i].Spawnpoint->GetActorTransform());
+	for (ATank* tank : tanks) {
+		tank->ResetSelf();
 	}
 	GetWorldTimerManager().SetTimer(TimerHandle, this, &AGameManager::EnableAllTanks, resetDelay, false);
 }
@@ -158,7 +154,7 @@ void AGameManager::EnableAllTanks() {
 
 
 void AGameManager::SetTankControls(UInputComponent* PlayerInputComponent) {
-	for (int i = 0; i < TankProperties.Num(); i++) {
+	for (int i = 0; i < tanks.Num(); i++) {
 		ATank* t = tanks[i];
 		if (!TankProperties[i].isCOM) {
 			switch (i) {

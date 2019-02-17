@@ -154,10 +154,10 @@ void AGameManager::EnableAllTanks() {
 
 
 void AGameManager::SetTankControls(UInputComponent* PlayerInputComponent) {
-	for (int i = 0; i < tanks.Num(); i++) {
-		ATank* t = tanks[i];
-		if (!TankProperties[i].isCOM) {
-			switch (i) {
+	int playerTankID = 0;
+	for (ATank* t: tanks) {
+		if (!t->isCOM) {
+			switch (playerTankID) {
 				//todo: make this data driven instead of hard coded
 			case 0:
 				PlayerInputComponent->BindAxis("P0Forward", this, &AGameManager::moveTank0);
@@ -171,7 +171,10 @@ void AGameManager::SetTankControls(UInputComponent* PlayerInputComponent) {
 				PlayerInputComponent->BindAxis("P1ChargeShot", this, &AGameManager::chargeTank1);
 				PlayerInputComponent->BindAction("P1FireEarly", IE_Released, this, &AGameManager::fireEarly1);
 				break;
+			default:
+				UE_LOG(LogTemp, Error, TEXT("Unable to set controls for Tank %i, no defined in Input"), playerTankID);
 			}
+			playerTankID++;
 		}
 	}
 }

@@ -58,13 +58,14 @@ void ATank::Tick(float DeltaTime)
         
         FRotator current = GetActorRotation();
         //set the rotation
-        if (newRot.Yaw - current.Yaw < 0){
-            SetActorRotation(current.Add(0, -2 * deltaTime/evalNormal, 0));
+		float rotSpeed = 2;
+		float diff = newRot.Yaw - current.Yaw;
+        if (diff < 0){
+			rotSpeed *=-1;
         }
-        else{
-            SetActorRotation(current.Add(0, 2 * deltaTime/evalNormal, 0));
-        }
-        
+		if (abs(diff) > abs(rotSpeed)) {
+			SetActorRotation(current.Add(0, rotSpeed * deltaTime / evalNormal, 0));
+		}
     }
     else if (AIchaseMode && controlEnabled){
         //rotate to face direction of travel
@@ -73,13 +74,14 @@ void ATank::Tick(float DeltaTime)
         FRotator newRot = UKismetMathLibrary::FindLookAtRotation(loc,prevPos).Add(0, 90, 0);
         FRotator current = GetActorRotation();
         //set the rotation
-        int rotSpeed = /*fmin(2,newRot.Yaw-current.Yaw)*/ 2;
-        if (newRot.Yaw - current.Yaw < 0){
-            SetActorRotation(current.Add(0, -rotSpeed * deltaTime/evalNormal, 0));
+        float rotSpeed = 2;
+		float diff = newRot.Yaw - current.Yaw;
+        if (diff < 0){
+			rotSpeed *= -1;
         }
-        else{
-            SetActorRotation(current.Add(0, rotSpeed * deltaTime/evalNormal, 0));
-        }
+		if (abs(diff) > abs(rotSpeed)) {
+			SetActorRotation(current.Add(0, rotSpeed * deltaTime / evalNormal, 0));
+		}
         prevPos = loc;
     }
 

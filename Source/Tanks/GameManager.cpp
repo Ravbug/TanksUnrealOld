@@ -96,11 +96,11 @@ void AGameManager::Tick(float DeltaTime)
 
 // Called to bind functionality to input
 void AGameManager::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-    
+{    
     //prevent duplicating all the tanks
     if (!setup) {
+		Super::SetupPlayerInputComponent(PlayerInputComponent);
+
         //spawn all the tanks
         for (int i = 0; i < TankProperties.Num(); i++) {
             if (TankProperties[i].isEnabled){
@@ -157,23 +157,38 @@ void AGameManager::SetTankControls(UInputComponent* PlayerInputComponent) {
 	int playerTankID = 0;
 	for (ATank* t: tanks) {
 		if (!t->isCOM) {
+			//Fire Early Action
+			FInputActionBinding fireEarlyBinding = FInputActionBinding(FName(*FString::Printf(TEXT("P%iFireEarly"),playerTankID)), IE_Released);	//declare action binding
+			FInputActionHandlerSignature fireEarlySignature;												//create handler which binds to the function
+			fireEarlySignature.BindUFunction(this, FName("fireEarly"), t);									//bind it to the action binding
+			fireEarlyBinding.ActionDelegate = fireEarlySignature;											//connect the signature and the binding with the delegate
+			PlayerInputComponent->AddActionBinding(fireEarlyBinding);										//add the action binding to the inputcomponent
+
+			//move forward axis
+			/*FInputAxisBinding moveForwardBinding = FInputAxisBinding(FName(*FString::Printf(TEXT("P%iForward"), playerTankID)));
+			FInputAxisHandlerSignature moveForwardSignature;
+			moveForwardSignature.BindUFunction(this, FName("MoveTank"), t);
+			moveForwardBinding.AxisDelegate = FInputAxisUnifiedDelegate(moveForwardSignature);
+			PlayerInputComponent->AxisBindings.Add(moveForwardBinding);*/
+
+			//PlayerInputComponent->BindAxis<FSomeDelegate, AGameManager, ATank*>("P0Forward", this, &AGameManager::MoveTank, t);
+
 			switch (playerTankID) {
 				//todo: make this data driven instead of hard coded
 			case 0:
 				PlayerInputComponent->BindAxis("P0Forward", this, &AGameManager::moveTank0);
 				PlayerInputComponent->BindAxis("P0Rotate", this, &AGameManager::rotateTank0);
-				PlayerInputComponent->BindAxis("P0ChargeShot", this, &AGameManager::chargeTank0);
-				PlayerInputComponent->BindAction("P0FireEarly", IE_Released, this, &AGameManager::fireEarly0);
+				PlayerInputComponent->BindAxis("P0ChargeShot", this, &AGameManager::chargeTank0);		
 				break;
 			case 1:
 				PlayerInputComponent->BindAxis("P1Forward", this, &AGameManager::moveTank1);
 				PlayerInputComponent->BindAxis("P1Rotate", this, &AGameManager::rotateTank1);
 				PlayerInputComponent->BindAxis("P1ChargeShot", this, &AGameManager::chargeTank1);
-				PlayerInputComponent->BindAction("P1FireEarly", IE_Released, this, &AGameManager::fireEarly1);
 				break;
 			default:
 				UE_LOG(LogTemp, Error, TEXT("Unable to set controls for Tank %i, no defined in Input"), playerTankID);
 			}
+			players.Add(t);
 			playerTankID++;
 		}
 	}
@@ -220,46 +235,41 @@ double AGameManager::MaxDistance(std::vector<FVector> &vectors) {
     return maxDist;
 }
 
-//move or rotate a tank with a given index
-void AGameManager::MoveTank(float amount, int tankID) {
-    ATank* t = tanks[tankID];
-    t->MoveForward(amount);
+//Signals a tank to fire early
+void AGameManager::fireEarly(ATank * tank)
+{
+	tank->FireEarly();
 }
-void AGameManager::RotateTank(float amount, int tankID) {
-    ATank* t = tanks[tankID];
-    t->Rotate(amount);
+
+//move or rotate a tank with a given index
+void AGameManager::MoveTank(float amount, ATank* tank) {
+	tank->MoveForward(amount);
+}
+void AGameManager::RotateTank(float amount, ATank* tank) {
+    tank->Rotate(amount);
 }
 //shoot or fire early
-void AGameManager::ChargeTank(float amount, int TankID) {
-    tanks[TankID]->ChargeShot(amount);
+void AGameManager::ChargeTank(float amount, ATank* tank) {
+    tank->ChargeShot(amount);
 }
-void AGameManager::FireEarly(int TankID) {
-    tanks[TankID]->FireEarly();
-}
+
 
 //there must be a better way than this
 void AGameManager::moveTank0(float amount) {
-    MoveTank(amount,0);
+    MoveTank(amount,players[0]);
 }
 void AGameManager::moveTank1(float amount) {
-    MoveTank(amount, 1);
+    MoveTank(amount, players[1]);
 }
 void AGameManager::rotateTank0(float amount) {
-    RotateTank(amount, 0);
+    RotateTank(amount, players[0]);
 }
 void AGameManager::rotateTank1(float amount) {
-    RotateTank(amount, 1);
+    RotateTank(amount, players[1]);
 }
 void AGameManager::chargeTank0(float amount) {
-    ChargeTank(amount, 0);
+    ChargeTank(amount, players[0]);
 }
 void AGameManager::chargeTank1(float amount) {
-    ChargeTank(amount, 1);
+    ChargeTank(amount, players[1]);
 }
-void AGameManager::fireEarly0() {
-    FireEarly(0);
-}
-void AGameManager::fireEarly1() {
-    FireEarly(1);
-}
-

@@ -6,6 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.h"
 #include "TimerManager.h"
+#include "Classes/Components/InputComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include <vector>
 #include "GameManager.generated.h"
@@ -73,10 +74,11 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
     //for control rerouting
-    void MoveTank(float amount, int TankID);
-    void RotateTank(float amount, int tankID);
-    void ChargeTank(float amount, int TankID);
-    void FireEarly(int TankID);
+	void MoveTank(float amount, ATank* tank);
+    void RotateTank(float amount, ATank* tank);
+    void ChargeTank(float amount, ATank* tank);
+	UFUNCTION()
+		void fireEarly(ATank* tank);
     
 	UPROPERTY(EditAnywhere)
 		int WinsNeeded = 5;
@@ -109,16 +111,15 @@ public:
     TArray<ATank*> tanks;
     
     //there has to be a better way
-    typedef void func_t(float);
-    typedef void (AGameManager::*pmemfunc_t)(float);
+    //typedef void func_t(float);
+   // typedef void (AGameManager::*pmemfunc_t)(float);
     void moveTank0(float amount);
     void rotateTank0(float amount);
     void moveTank1(float amount);
     void rotateTank1(float amount);
     void chargeTank0(float amount);
     void chargeTank1(float amount);
-    void fireEarly0();
-    void fireEarly1();
+	TArray<ATank*>players;
     /*
      std::vector<pmemfunc_t> moveTable = { moveTank0,moveTank1 };
      std::vector<pmemfunc_t> rotateTable = { rotateTank0,rotateTank1 };*/

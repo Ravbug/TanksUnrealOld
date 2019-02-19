@@ -7,7 +7,7 @@ AGameManager::AGameManager()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	//create a camera spring arm
     cameraMount = CreateDefaultSubobject<USpringArmComponent>("CameraBoom");
 }
 
@@ -15,11 +15,15 @@ AGameManager::AGameManager()
 void AGameManager::BeginPlay()
 {
 	Super::BeginPlay();
+	//draw the text showing the round
 	RoundStarting(currentRound);
+
+	//schedule the first round to start by enabling the tanks
 	GetWorldTimerManager().SetTimer(TimerHandle, this, &AGameManager::EnableAllTanks, resetDelay, false);
 }
 
 // Called every frame
+//DeltaTime is for scaling 
 void AGameManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -58,7 +62,6 @@ void AGameManager::Tick(float DeltaTime)
     //update the spring arm length
     cameraMount->TargetArmLength = distance * 1.2;
     
-    
     //check winner
     if (!roundWon && numAlive < 2) {
 		//round has been won
@@ -68,6 +71,7 @@ void AGameManager::Tick(float DeltaTime)
 		winner->wins++;
 		FString scoreboard = FString("Scoreboard\n");
 
+		//setup the scoreboard string
 		for (ATank* t : tanks) {
 			scoreboard += "<Emphasis>" + t->name + "</>		";
 			if (t == winner) {
@@ -81,14 +85,18 @@ void AGameManager::Tick(float DeltaTime)
 			}
 		}
 
+		//display the scores
 		RoundWon(FString("<Emphasis>" + winner->name + "</> won the round!"),scoreboard);
 
 		currentRound++;
+		//does the winner have the required number of wins?
 		if (winner->wins >= WinsNeeded) {
-			//run end game function
-			RoundWon(FString("<NoteworthySmall>" + winner->name + "</> won the game!"), scoreboard);
+			//if so, they are the game winner!
+			//show the scores, and siganl to reset the map
+			RoundWon(FString("<NoteworthySmall>" + winner->name + "</> won the game!"), scoreboard,true);
 		}
 		else {
+			//otherwise, reset the tanks and start a new round
 			GetWorldTimerManager().SetTimer(TimerHandle, this, &AGameManager::ResetTanks, resetDelay, false);
 		}
     }
@@ -99,6 +107,7 @@ void AGameManager::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 {    
     //prevent duplicating all the tanks
     if (!setup) {
+		//avoid setting up twice
 		Super::SetupPlayerInputComponent(PlayerInputComponent);
 
         //spawn all the tanks
@@ -112,8 +121,10 @@ void AGameManager::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
                 else {
                     name = "PLAYER " + name;
                 }
+				//spawn a tank and get a pointer to it
                 ATank* t = SpawnTank(TankProperties[i].Color, TankProperties[i].Spawnpoint->GetActorTransform(),TankProperties[i].isCOM);
 
+				//setup attributes, and add it to the tank array
 				t->name = name;
 				t->isCOM = TankProperties[i].isCOM;
 				tanks.Add(t);		
@@ -123,6 +134,7 @@ void AGameManager::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
         for (ATank* t : tanks){
             if (t->isCOM){
                 t->OtherTanks = TArray<ATank*>(tanks);
+				//remove pointer to tank's self so it can't target itself
                 t->OtherTanks.Remove(t);
             }
         }
@@ -134,8 +146,8 @@ void AGameManager::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	SetTankControls(PlayerInputComponent);
 }
 
-//resets the tanks by spawning fresh copies
-//for resetting the level after the round
+//Resets the tanks locations and other attributes
+//For resetting the level after the round
 void AGameManager::ResetTanks() {
 	roundWon = false;
 	RoundStarting(currentRound);
@@ -145,14 +157,16 @@ void AGameManager::ResetTanks() {
 	GetWorldTimerManager().SetTimer(TimerHandle, this, &AGameManager::EnableAllTanks, resetDelay, false);
 }
 
-//enables the tanks to recieve inputs
+//Enables the tanks to recieve inputs
 void AGameManager::EnableAllTanks() {
 	for (ATank* t : tanks) {
 		t->controlEnabled = true;
 	}
 }
 
-
+/*Sets the connections to the controllers for human-controlled tanks
+* @param (UInputComponent*) PlayerInputComponent: Reference to the player input component object
+*/
 void AGameManager::SetTankControls(UInputComponent* PlayerInputComponent) {
 	int playerTankID = 0;
 	for (ATank* t: tanks) {
@@ -175,6 +189,7 @@ void AGameManager::SetTankControls(UInputComponent* PlayerInputComponent) {
 
 			switch (playerTankID) {
 				//todo: make this data driven instead of hard coded
+				//need to find a way to pass the pointer, in a way similar to above with FireEarly
 			case 0:
 				PlayerInputComponent->BindAxis("P0Forward", this, &AGameManager::moveTank0);
 				PlayerInputComponent->BindAxis("P0Rotate", this, &AGameManager::rotateTank0);
@@ -186,6 +201,7 @@ void AGameManager::SetTankControls(UInputComponent* PlayerInputComponent) {
 				PlayerInputComponent->BindAxis("P1ChargeShot", this, &AGameManager::chargeTank1);
 				break;
 			default:
+				//logs an error if no controls are setup (example: 3 human controlled tanks)
 				UE_LOG(LogTemp, Error, TEXT("Unable to set controls for Tank %i, no defined in Input"), playerTankID);
 			}
 			players.Add(t);
@@ -194,7 +210,10 @@ void AGameManager::SetTankControls(UInputComponent* PlayerInputComponent) {
 	}
 }
 
-///Calculates the average distance between an array of FVectors
+/*Calculates the average distance between a set of FVectors
+* @param (std::vector<FVector>) &vectors: a vector of FVectors to calculate the average distance
+* @return (FVector): FVector representing the average x, y, and z coordinates of the FVectors
+*/
 FVector AGameManager::GetAverageLocation(std::vector<FVector> &vectors) {
     FVector average = FVector(0,0,0);
     for (FVector v : vectors) {
@@ -208,7 +227,10 @@ FVector AGameManager::GetAverageLocation(std::vector<FVector> &vectors) {
     return average;
 }
 
-//calculates the average rotation of the supplied FRotators
+/*Calculates the average rotation between a set of FRotators
+* @param (std::vector<FRotator>) &vectors: a vector of FRotators to calculate the average rotation
+* @return (FRotator): FRotator representing the average rotation
+*/
 FRotator AGameManager::GetAverageRotation(std::vector<FRotator> &rotators) {
 	FRotator average = rotators[0];
 
@@ -219,8 +241,10 @@ FRotator AGameManager::GetAverageRotation(std::vector<FRotator> &rotators) {
 	return average;
 }
 
-///Calculates the farthest distance between an array of vectors
-double AGameManager::MaxDistance(std::vector<FVector> &vectors) {
+/*Calculates the maximum distance between a set of FVectors
+* @param (std::vector<FVector>) &vectors: a vector of FVectors to calculate the maximum distance
+* @return (double): the distance between the two FVectors that are furthest apart
+*/double AGameManager::MaxDistance(std::vector<FVector> &vectors) {
     double maxDist = 0;
     for (FVector v : vectors) {
         for (FVector v1 : vectors) {
@@ -236,25 +260,34 @@ double AGameManager::MaxDistance(std::vector<FVector> &vectors) {
 }
 
 //Signals a tank to fire early
+//@param (ATank*) tank: Tank pointer to signal
 void AGameManager::fireEarly(ATank * tank)
 {
 	tank->FireEarly();
 }
 
-//move or rotate a tank with a given index
+//Signal a tank to move
+//@param (float) amount: amount to move
+//@param (ATank*) tank: Tank pointer to signal
 void AGameManager::MoveTank(float amount, ATank* tank) {
 	tank->MoveForward(amount);
 }
+//Signal a tank to rotate
+//@param (float) amount: amount to rotate
+//@param (ATank*) tank: Tank pointer to signal
 void AGameManager::RotateTank(float amount, ATank* tank) {
     tank->Rotate(amount);
 }
-//shoot or fire early
+//Signal a tank to charge its shot
+//@param (float) amount: amount to charge
+//@param (ATank*) tank: Tank pointer to signal
 void AGameManager::ChargeTank(float amount, ATank* tank) {
     tank->ChargeShot(amount);
 }
 
 
 //there must be a better way than this
+//hard-codes which tank pointer to use, until I can figure out how to send the pointer in the AxisBinding
 void AGameManager::moveTank0(float amount) {
     MoveTank(amount,players[0]);
 }

@@ -40,7 +40,7 @@ void ATank::Tick(float DeltaTime)
 			//slow down the tank
 			velocity -= velocity * 0.05 * deltaTime/evalNormal;
 		}
-		//move the tank forward
+		//move the tank forward based on velocity
 		FVector v = GetActorForwardVector().RotateAngleAxis(90, FVector::UpVector);
 		v *= velocity;
 		SetActorLocation(GetActorLocation() + v);
@@ -51,13 +51,13 @@ void ATank::Tick(float DeltaTime)
         SetActorLocation(GetActorLocation() + v*(-maxSpeed/2)*deltaTime/evalNormal);
         
         //rotate towards target
-        //calculate the angle between the vector
+        //calculate the angle to the vector
         FVector target = targetActor->GetActorLocation();
         FVector pos = GetActorLocation();
         FRotator newRot = UKismetMathLibrary::FindLookAtRotation(target,pos).Add(0, 90, 0);
         
         FRotator current = GetActorRotation();
-        //set the rotation
+        //set the rotation, if the rotation is greater than the tolerance level (to prevent jittering)
 		float rotSpeed = 2;
 		float diff = newRot.Yaw - current.Yaw;
         if (diff < 0){
@@ -113,6 +113,7 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
     Super::SetupPlayerInputComponent(PlayerInputComponent);  
 }
 
+//Resets the tank to its default values, and kicks off the AI if this tank is computer-controlled
 void ATank::ResetSelf() {
 	currentPower = minPower;
 	isDefeated = false;
@@ -129,8 +130,8 @@ void ATank::ResetSelf() {
 	}
 }
 
-//called from whatever is controlling the tank
-//changes the velocity which moves the tank
+//Changes the tank's velocity by the specified amount
+//@param (float) amount: amount to change velocity
 void ATank::MoveForward(float amount) {
 	if (controlEnabled) {
 		if (abs(velocity) < maxSpeed * deltaTime/evalNormal) {
@@ -139,8 +140,8 @@ void ATank::MoveForward(float amount) {
 	}
 }
 
-//rotates the tank in place
-//called by class that controls this tank
+//Rotates the tank in place
+//@param (float) amount: amount to rotate the tank
 void ATank::Rotate(float amount) {
     if (controlEnabled) {
         //scale for deltaTime
@@ -151,6 +152,7 @@ void ATank::Rotate(float amount) {
 
 //Begins charging up a shot
 //a different method handles firing early
+//@param (float) amount: amount to charge the shot
 void ATank::ChargeShot(float amount) {
     if (controlEnabled) {
         if (amount > 0) {
@@ -191,6 +193,7 @@ void ATank::FireEarly() {
 
 //take damage
 //this is called by explosion from blueprints
+//@param (int) amount: amount of damage to deal to the tank
 void ATank::Damage(int amount) {
 	if (!isDefeated) {
 		health -= amount;
@@ -279,6 +282,7 @@ AActor* ATank::ClosestTarget(){
     return closest;
 }
 
+//remaps a value on an old range, to a new value on a new range
 float ATank::remapValue(float value, float oldmin, float oldmax, float newmin, float newmax) {
 	return newmin + (value - oldmin)*(newmax - newmin) / (oldmax - oldmin);
 }

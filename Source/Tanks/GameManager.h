@@ -9,6 +9,7 @@
 #include "Classes/Components/InputComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include <vector>
+#include "Classes/Kismet/GameplayStatics.h"
 #include "GameManager.generated.h"
 
 USTRUCT(BlueprintType)
@@ -39,6 +40,10 @@ protected:
     
 	//gets the average location between an array of vectors
     FVector GetAverageLocation(std::vector<FVector> &vectors);
+
+	//calculates the average rotation
+	//see the .cpp file for full description
+	FRotator GetAverageRotation(std::vector<FRotator> &rotators);
     
     //z offset for the camera root to prevent the camera spring arm from getting confused
     int zPos = 900;
@@ -53,6 +58,7 @@ protected:
 	//resets the tanks after the round ends
 	void ResetTanks();
 
+	//for scheduling calls, used to delay starting and stopping rounds
 	FTimerHandle TimerHandle;
 
 	//sets up the tank controls
@@ -62,9 +68,11 @@ protected:
 	//if the round has been won
 	bool roundWon = false;
 
+	//tracks which round is currently running
 	int currentRound = 1;
 
-	FRotator GetAverageRotation(std::vector<FRotator> &rotators);
+	//tracks initial setup to prevent duplicate calls
+	bool setup = false;
 
 public:	
 	// Called every frame
@@ -80,32 +88,41 @@ public:
 	UFUNCTION()
 		void fireEarly(ATank* tank);
     
+	//the wins required to win the whole game
 	UPROPERTY(EditAnywhere)
 		int WinsNeeded = 5;
 
+	//array of tank properties, which can be configured from the Unreal Editor
     UPROPERTY(EditAnywhere)
     TArray<FTankTracker> TankProperties;
     
+	//Implemented in Blueprint
+	//spawns a tank with the specified color, transform, and whether or not AI controls it
     UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Event")
     ATank* SpawnTank(FColor color, FTransform pos, bool COM);
     
+	//camera spring arm reference
     UPROPERTY(EditAnywhere)
     USpringArmComponent* cameraMount;
 
+	//Implemented in Blueprint
+	//draws text on the screen showing which round is currently running
 	UFUNCTION(BlueprintImplementableEvent, Category = "Event")
 		void RoundStarting(int round);
 
+	//Implemented in Blueprint
+	//Shows who won and the leaderboard
 	UFUNCTION(BlueprintImplementableEvent, Category = "Event")
-		void RoundWon(const FString& text, const FString& scoreboard);
+		void RoundWon(const FString& text, const FString& scoreboard, bool resetLevel=false);
 
+	//Implemented in Blueprint
+	//hides any existing on-screen text
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Event")
 		void DismissHUD();
 
+	//how long to wait when starting / stopping rounds
 	UPROPERTY(EditAnywhere)
 		float resetDelay = 3.0f;
-    
-	//tracks initial setup to prevent duplicate calls
-    bool setup = false;
     
     //the array of tanks
     TArray<ATank*> tanks;

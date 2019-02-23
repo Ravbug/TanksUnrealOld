@@ -90,7 +90,13 @@ public:
     // Called to bind functionality to input
     virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
     
+	//Because SpawnActor doesn't allow custom constructors
+	void Init(FString NameIn, bool isCOMIn) {
+		name = NameIn; isCOM = isCOMIn;
+	}
+
     //For AI, holds a list of targets if this tank is computer controlled
+	UPROPERTY()
     TArray<ATank*> OtherTanks;   //array of possible targets
     
 	//reference to the root static mesh object

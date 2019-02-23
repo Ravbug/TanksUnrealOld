@@ -125,8 +125,7 @@ void AGameManager::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
                 ATank* t = SpawnTank(TankProperties[i].Color, TankProperties[i].Spawnpoint->GetActorTransform(),TankProperties[i].isCOM);
 
 				//setup attributes, and add it to the tank array
-				t->name = name;
-				t->isCOM = TankProperties[i].isCOM;
+				t->Init(name,TankProperties[i].isCOM);
 				tanks.Add(t);		
             }
         }
@@ -138,7 +137,7 @@ void AGameManager::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
                 t->OtherTanks.Remove(t);
             }
         }
-        //setup wins array
+        //mark setup as complete, so duplicate calls don't run
         setup = true;
     }
     

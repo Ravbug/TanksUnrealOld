@@ -6,10 +6,9 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.h"
 #include "TimerManager.h"
-#include "Classes/Components/InputComponent.h"
+#include "Components/InputComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include <vector>
-#include "Classes/Kismet/GameplayStatics.h"
 #include "GameManager.generated.h"
 
 USTRUCT(BlueprintType)

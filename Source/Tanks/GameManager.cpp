@@ -33,6 +33,7 @@ void AGameManager::Tick(float DeltaTime)
 	std::vector<FRotator> rotations;
     int numAlive = 0;
     ATank* winner = nullptr;
+	//calculate the number of tanks left, and detect a winner, if there is any
     for (ATank* t : tanks) {
         if (!t->isDefeated) {
             numAlive++;
@@ -41,11 +42,12 @@ void AGameManager::Tick(float DeltaTime)
             winner = t;
         }
     }
+	//determine the camera's target location
     FVector newLoc = GetAverageLocation(vectors);
     //apply the z offset
     newLoc.Z = zPos;
     
-    //move the camera root
+    //move the camera root (the camera lag in the USpringArm animates this smoothly)
     SetActorLocation(newLoc);
 
 	//rotate the camera
@@ -53,9 +55,13 @@ void AGameManager::Tick(float DeltaTime)
 
 	//determine the rotation offset
 	double distance = MaxDistance(vectors) * 0.5;
+	//determine the camera's pitch angle
 	float pitch = /*abs(sin(newRotation.Yaw*PI / 180)) * rotationOffset * (distance / maxDistance)*/ 20 * (distance / maxDistance);
 
+	//pitch up the camera for the angle
 	newRotation.Pitch = -50 - pitch;
+
+	//set the camera's location (the USpringArm lag will animate this smoothly)
 	SetActorRotation(newRotation);
     
     //zoom the camera 
@@ -85,7 +91,7 @@ void AGameManager::Tick(float DeltaTime)
 			}
 		}
 
-		//display the scores
+		//display the score string
 		RoundWon(FString("<Emphasis>" + winner->name + "</> won the round!"),scoreboard);
 
 		currentRound++;
@@ -113,6 +119,7 @@ void AGameManager::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
         //spawn all the tanks
         for (int i = 0; i < TankProperties.Num(); i++) {
             if (TankProperties[i].isEnabled){
+				//assing their names
                 FString name;
                 name.AppendInt(i);
                 if (TankProperties[i].isCOM) {
@@ -149,10 +156,13 @@ void AGameManager::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 //For resetting the level after the round
 void AGameManager::ResetTanks() {
 	roundWon = false;
+	//show the round starting text
 	RoundStarting(currentRound);
+	//reset all the tanks
 	for (ATank* tank : tanks) {
 		tank->ResetSelf();
 	}
+	//enable all the tanks after a delay
 	GetWorldTimerManager().SetTimer(TimerHandle, this, &AGameManager::EnableAllTanks, resetDelay, false);
 }
 
@@ -203,6 +213,7 @@ void AGameManager::SetTankControls(UInputComponent* PlayerInputComponent) {
 				//logs an error if no controls are setup (example: 3 human controlled tanks)
 				UE_LOG(LogTemp, Error, TEXT("Unable to set controls for Tank %i, no defined in Input"), playerTankID);
 			}
+			//add the tank to the array, and increment the tank ID
 			players.Add(t);
 			playerTankID++;
 		}
@@ -232,7 +243,7 @@ FVector AGameManager::GetAverageLocation(std::vector<FVector> &vectors) {
 */
 FRotator AGameManager::GetAverageRotation(std::vector<FRotator> &rotators) {
 	FRotator average = rotators[0];
-
+	//the average of a quaternion is defined as SUM(quaternion_1, quaternion_2, ...)
 	for (int i = 1; i < rotators.size(); i++) {
 		FRotator r = rotators[i];
 		average += r;

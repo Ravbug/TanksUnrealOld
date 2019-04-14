@@ -12,6 +12,8 @@
 #include "GameManager.generated.h"
 
 USTRUCT(BlueprintType)
+//exposed in the UI for GameManager
+//allows the user to customize the number of tanks, whether they are computer controlled, color, spawn location, etc
 struct FTankTracker {
     GENERATED_USTRUCT_BODY()
     UPROPERTY(EditAnywhere)
@@ -126,18 +128,12 @@ public:
     //the array of tanks
     TArray<ATank*> tanks;
     
-    //there has to be a better way
-    //typedef void func_t(float);
-   // typedef void (AGameManager::*pmemfunc_t)(float);
+    //there has to be a better way than this
     void moveTank0(float amount);
     void rotateTank0(float amount);
     void moveTank1(float amount);
     void rotateTank1(float amount);
     void chargeTank0(float amount);
     void chargeTank1(float amount);
-	TArray<ATank*>players;
-    /*
-     std::vector<pmemfunc_t> moveTable = { moveTank0,moveTank1 };
-     std::vector<pmemfunc_t> rotateTable = { rotateTank0,rotateTank1 };*/
-    
+	TArray<ATank*>players;  
 };

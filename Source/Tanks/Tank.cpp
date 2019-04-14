@@ -50,40 +50,32 @@ void ATank::Tick(float DeltaTime)
         FVector v = GetActorForwardVector().RotateAngleAxis(90, FVector::UpVector);
         SetActorLocation(GetActorLocation() + v*(-maxSpeed/2)*deltaTime/evalNormal);
         
-        //rotate towards target
         //calculate the angle to the vector
         FVector target = targetActor->GetActorLocation();
         FVector pos = GetActorLocation();
         FRotator newRot = UKismetMathLibrary::FindLookAtRotation(target,pos).Add(0, 90, 0);
-        
-        FRotator current = GetActorRotation();
-        //set the rotation, if the rotation is greater than the tolerance level (to prevent jittering)
-		float rotSpeed = 2;
-		float diff = newRot.Yaw - current.Yaw;
-        if (diff < 0){
-			rotSpeed *=-1;
-        }
-		if (abs(diff) > abs(rotSpeed)) {
-			SetActorRotation(current.Add(0, rotSpeed * deltaTime / evalNormal, 0));
-		}
+		//interpolate the rotation
+		FRotator modified = FMath::RInterpConstantTo(GetActorRotation(), newRot, DeltaTime, 120);
+		//rotate towards target
+		SetActorRotation(modified);
+       
     }
     else if (AIchaseMode && controlEnabled){
         //rotate to face direction of travel
-        //FVector v = GetVelocity();
         FVector loc = GetActorLocation();
         FRotator newRot = UKismetMathLibrary::FindLookAtRotation(loc,prevPos).Add(0, 90, 0);
-        FRotator current = GetActorRotation();
-        //set the rotation
-        float rotSpeed = 2;
-		float diff = newRot.Yaw - current.Yaw;
-        if (diff < 0){
-			rotSpeed *= -1;
-        }
-		if (abs(diff) > abs(rotSpeed)) {
-			SetActorRotation(current.Add(0, rotSpeed * deltaTime / evalNormal, 0));
-		}
+		
+		//interpolate the rotation
+		FRotator modified = FMath::RInterpTo(GetActorRotation(), newRot, DeltaTime, 3);
+		//rotate towards target
+		SetActorRotation(modified);
+
         prevPos = loc;
     }
+
+	if (AIchaseMode) {
+
+	}
 
 	//engine sounds
 	FVector Vvel = GetVelocity();

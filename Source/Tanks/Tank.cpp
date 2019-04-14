@@ -73,10 +73,6 @@ void ATank::Tick(float DeltaTime)
         prevPos = loc;
     }
 
-	if (AIchaseMode) {
-
-	}
-
 	//engine sounds
 	FVector Vvel = GetVelocity();
 	float vel = abs(Vvel.X) + abs(Vvel.Y);

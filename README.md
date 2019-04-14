@@ -17,8 +17,9 @@ Hardware
 
 ## Compiling it yourself
 1. Ensure you have the software listed above installed on your computer.
-2. Clone this repository
-3. Open the .uproject and compile now if it asks
+2. Download this repository as a zip (faster than cloning)
+3. Unzip the archive
+4. Open the .uproject and compile now if it asks
 5. Play! 
 
 ## Issues
@@ -54,6 +55,7 @@ Goal is to reach parity with the Unity game, and perhaps extend on it
 - [x] Tank AI: Pathfinding
 - [x] Tank AI: Shooting (and not shooting when behind a wall - use a trigger collider for this)
 - [x] Tank AI: Choosing targets (and aiming turret)
+- [ ] Fix derpy spinning AI
 - [ ] Game controller support
 - [ ] Mobile touch support
 - [ ] Experiment with deployment

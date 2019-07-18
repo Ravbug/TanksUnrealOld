@@ -1,5 +1,5 @@
 # TanksUnreal
-The Unity Tanks! tutorial game, rewritten in Unreal Engine 4 and C++
+![Screenshot of the game](https://i.imgur.com/ozpnjEZ.png)
 
 ## About
 This repository contains my work for remaking the [Unity Tanks! Tutorial game](https://unity3d.com/learn/tutorials/s/tanks-tutorial) in [Unreal Engine 4](https://www.unrealengine.com/), the engine behind the popular game [Fortnite](http://fortnite.com/). 

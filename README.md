@@ -61,8 +61,8 @@ Goal is to reach parity with the Unity game, and perhaps extend on it.
 - [x] Tank AI: Shooting (and not shooting when behind a wall - use a trigger collider for this)
 - [x] Tank AI: Choosing targets (and aiming turret)
 - [x] Fix derpy spinning AI
-- ~~[ ] Game controller support~~
-- ~~[ ] Mobile touch support~~
-- ~~[ ] Experiment with deployment~~
-- ~~[ ] Maybe: Land mines~~
-- ~~[ ] Maybe: Time of day~~
+- [ ] ~~Game controller support~~
+- [ ] ~~Mobile touch support~~
+- [ ] ~~Experiment with deployment~~
+- [ ] ~~Maybe: Land mines~~
+- [ ] ~~Maybe: Time of day~~

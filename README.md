@@ -1,4 +1,5 @@
-# TanksUnreal
+# This is no longer being updated! Visit the rewritten version here: [https://github.com/Ravbug/TanksUnreal](https://github.com/Ravbug/TanksUnreal)
+
 ![Screenshot of the game](https://i.imgur.com/ozpnjEZ.png)
 
 ## About
